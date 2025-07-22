@@ -15,16 +15,30 @@
       <div class="container">
         <a class="navbar-brand fw-bold" href="{% url 'home' %}">Newspaper</a>
         <div>
+          {% if user.is_authenticated %}
           <a class="btn btn-outline-light ms-3" href="{% url 'add_article' %}"
             >Add Article</a
           >
+          <a class="btn btn-secondary ms-2" href="{% url 'password_change' %}"
+            >Change Password</a
+          >
+          <form action="{% url 'logout' %}" method="post" class="d-inline ms-2">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Logout</button>
+          </form>
+          {% else %}
+          <a class="btn btn-outline-light ms-3" href="{% url 'login' %}"
+            >Login</a
+          >
+          <a class="btn btn-primary ms-2" href="{% url 'signup' %}">Sign Up</a>
+          {% endif %}
         </div>
       </div>
     </nav>
 
     <!-- Main Content -->
     <main class="flex-fill container my-4">
-      {% block content %} {% endblock content%}
+      {% block content %} {% endblock %}
     </main>
 
     <!-- Footer -->

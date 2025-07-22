@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Article
+from .models import Article, Comment
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
-from .forms import ArticleForm
+from .forms import ArticleForm, CommentForm
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
+
 
 # Create your views here.
 
@@ -17,7 +19,18 @@ def Home(request):
 # use function-based view
 def ArticleDetails(request, pk):
     article = Article.objects.get(id=pk)
-    context = {"article": article}
+    comments = article.comments.all()
+    form = CommentForm()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.article = article
+            comment.writer = request.user
+            comment.save()
+            return redirect("article_details", pk=article.pk)
+    context = {"article": article, "comments": comments, "comment_form": form}
+
     return render(request, "articles/article_details.html", context)
 
 
@@ -90,3 +103,14 @@ def DeleteArticle(request, pk):
 #     success_url = reverse_lazy("/")
 
 
+###################
+
+
+class SignUp(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"
+
+
+def ChangePassword(request):
+    return render(request, "registration/password_change_form.html")
