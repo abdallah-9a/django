@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block content %}
+<div class="p-4 border rounded bg-light">
+  <h2 class="fw-bold">
+    {{ article.title }}
+    <small class="text-muted ms-2" style="font-size: 0.9em"
+      >{{ article.create_at }}</small
+    >
+  </h2>
+  <div class="mb-2">
+    <span class="text-secondary">by {{ article.author }}</span>
+  </div>
+  <div>{{ article.body }}</div>
+  <a href="{% url 'edit_article' article.pk %}" class="btn btn-warning mt-3"
+    >Edit Article</a
+  >
+  <a
+    href="{% url 'delete_article' article.pk %}"
+    class="btn btn-danger mt-3 ms-2"
+    >Delete Article</a
+  >
+</div>
+{% endblock content %}
