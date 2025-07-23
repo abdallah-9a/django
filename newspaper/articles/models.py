@@ -35,7 +35,9 @@ class Comment(models.Model):
         for word in self.illegal_words:
             if word.lower() in text.lower():
                 masked = "*" * len(word)
-                text = text.replace(word, masked).replace(word.capitalize(), masked)
+                text = text.replace(word.lower(), masked).replace(
+                    word.capitalize(), masked
+                )
         return text
 
     def save(self, *args, **kwargs):
