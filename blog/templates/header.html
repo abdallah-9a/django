@@ -1,15 +1,24 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
   <a class="navbar-brand fw-bold" href="{% url 'home' %}">Blog</a>
 
-  <div class="ms-auto">
+  <div class="ms-auto d-flex align-items-center">
     {% if user.is_authenticated %}
     <span class="text-white me-3">Hello, {{ user.username }}!</span>
-    <a class="btn btn-outline-light me-2" href="###">Logout</a>
-    {%if user.is_superuser%}
-    <a class="btn btn-outline-light me-2" href="###">Manage</a>
-    {%endif%} {% else %}
-    <a class="btn btn-outline-light me-2" href="###">Login</a>
-    <a class="btn btn-primary" href="###">Register</a>
+
+    <form action="{% url 'logout' %}" method="post" class="me-2">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-danger btn-sm">
+        Logout
+      </button>
+    </form>
+
+    {% if user.is_superuser %}
+    <a class="btn btn-outline-light btn-sm me-2" href="#">Manage</a>
+    {% endif %} {% else %}
+    <a class="btn btn-outline-light btn-sm me-2" href="{% url 'login' %}"
+      >Login</a
+    >
+    <a class="btn btn-primary btn-sm" href="#">Register</a>
     {% endif %}
   </div>
 </nav>
