@@ -13,6 +13,23 @@
               href="{% url 'category_details' category.id %}">
               {{ category.name }}
             </a>
+            {% if user.is_authenticated %} {% if category in user.subscribed_categories.all%}
+            <!-- Unsubscribe button -->
+            <form method="post" action="{%url 'unsubscribe' category.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-danger">
+                Unsubscribe
+              </button>
+            </form>
+            {% else %}
+            <!-- Subscribe button -->
+            <form method="post" action="{%url 'subscribe' category.id%}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-success">
+                Subscribe
+              </button>
+            </form>
+            {% endif %} {% endif %}
           </div>
         </li>
         {% empty %}

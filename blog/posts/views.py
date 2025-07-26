@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Post, Category
 
 
@@ -21,3 +21,15 @@ def PostDetails(request, pk):
     post = Post.objects.get(id=pk)
     context = {"post": post}
     return render(request, "blog/post_details.html", context)
+
+
+def Unsubsribe(request, category_id):
+    category = Category.objects.get(id=category_id)
+    category.subscribers.remove(request.user)
+    return redirect("home")
+
+
+def Subscribe(request, category_id):
+    category = Category.objects.get(id=category_id)
+    category.subscribers.add(request.user)
+    return redirect("home")
