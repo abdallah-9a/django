@@ -13,12 +13,12 @@
     </form>
 
     {% if user.is_superuser %}
-    <a class="btn btn-outline-light btn-sm me-2" href="#">Manage</a>
+    <a class="btn btn-outline-light btn-sm me-2" href="###">Manage</a>
     {% endif %} {% else %}
     <a class="btn btn-outline-light btn-sm me-2" href="{% url 'login' %}"
       >Login</a
     >
-    <a class="btn btn-primary btn-sm" href="#">Register</a>
+    <a class="btn btn-primary btn-sm" href="{%url 'signup' %}">Register</a>
     {% endif %}
   </div>
 </nav>

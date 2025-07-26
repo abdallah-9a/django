@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Post, Category
-
+from django.views.generic import CreateView
+from django.urls import reverse_lazy, reverse
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 def Home(request):
@@ -33,3 +35,8 @@ def Subscribe(request, category_id):
     category = Category.objects.get(id=category_id)
     category.subscribers.add(request.user)
     return redirect("home")
+
+class Signup(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "signup.html"

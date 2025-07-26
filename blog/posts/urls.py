@@ -7,4 +7,5 @@ urlpatterns = [
     path("post/<int:pk>", views.PostDetails, name="post_details"),
     path("subscribe/<int:category_id>/", views.Subscribe, name="subscribe"),
     path("unsubscribe/<int:category_id>/", views.Unsubsribe, name="unsubscribe"),
+    path("signup/",views.Signup.as_view(),name='signup'),
 ]
