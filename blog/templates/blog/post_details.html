@@ -1,26 +1,42 @@
-{% extends "base.html" %} {% block page_content %}
-<div class="container">
-  <div class="mb-4">
-    <h2>{{ post.title }}</h2>
-    <p class="text-muted">by {{ post.author }} • {{ post.publish_date}}</p>
+{% extends "base.html" %} {% load static %} {% block page_content %}
 
-    {% if post.category %}
-    <p>
-      Category:
-      <a href="{% url 'category_details' post.category.id %}"
-        >{{ post.category.name }}</a
-      >
-    </p>
-    {% endif %}
-    <div class="mb-2">
-      {% for tag in post.tags.all %}
-      <span class="badge bg-secondary">#{{ tag.name }}</span>
-      {% empty %} {% endfor %}
+<div class="container">
+  <div class="mb-4 d-flex">
+    <!-- Left side: text content -->
+    <div class="flex-grow-1 pe-4">
+      <h2>{{ post.title }}</h2>
+      <p class="text-muted">by {{ post.author }} • {{ post.publish_date }}</p>
+
+      {% if post.category %}
+      <p>
+        Category:
+        <a href="{% url 'category_details' post.category.id %}">
+          {{ post.category.name }}
+        </a>
+      </p>
+      {% endif %} {% if post.tags.exists %}
+      <div class="mb-2">
+        {% for tag in post.tags.all %}
+        <span class="badge bg-secondary">#{{ tag.name }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <hr />
+      <p>{{ post.content|linebreaks }}</p>
     </div>
 
-    <hr />
-
-    <p>{{ post.content|linebreaks }}</p>
+    <!-- Right side: image -->
+    {% if post.pic %}
+    <div>
+      <img
+        src="{% static 'images/'|add:post.pic %}"
+        alt="{{ post.title }}"
+        width="150"
+        class="img-fluid rounded" />
+    </div>
+    {% endif %}
   </div>
 </div>
+
 {% endblock page_content %}

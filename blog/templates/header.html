@@ -5,7 +5,9 @@
     {% if user.is_authenticated %}
     <span class="text-white me-3">Hello, {{ user.username }}!</span>
     <a class="btn btn-outline-light me-2" href="###">Logout</a>
-    {% else %}
+    {%if user.is_superuser%}
+    <a class="btn btn-outline-light me-2" href="###">Manage</a>
+    {%endif%} {% else %}
     <a class="btn btn-outline-light me-2" href="###">Login</a>
     <a class="btn btn-primary" href="###">Register</a>
     {% endif %}
