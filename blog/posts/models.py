@@ -9,7 +9,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    publis_date = models.DateTimeField(auto_now_add=True)
+    publish_date = models.DateTimeField(auto_now_add=True)
     pic = models.CharField(max_length=100)
     tages = TaggableManager()
     category = models.ForeignKey(
@@ -22,6 +22,12 @@ class Post(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    subscribers = models.ManyToManyField(
+        User, related_name="subscribed_categories", blank=True
+    )
+
+    def is_subscribed(self, user): # check is user subscribe or Not
+        return self.subscribers.filter(id=user.id).exists()
 
     def __str__(self):
         return self.name
