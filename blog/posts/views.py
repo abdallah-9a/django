@@ -7,7 +7,8 @@ from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 def Home(request):
     categories = Category.objects.all()
-    context = {"categories": categories}
+    posts = Post.objects.order_by("-publish_date")[:5] # '-' sign for descending order
+    context = {"categories": categories, 'posts':posts}
     return render(request, "blog/home.html", context)
 
 

@@ -1,4 +1,5 @@
 {% extends "base.html" %} {% block page_content %}
+{%load static%}
 <div class="row">
   <!-- Sidebar -->
   <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
@@ -13,7 +14,8 @@
               href="{% url 'category_details' category.id %}">
               {{ category.name }}
             </a>
-            {% if user.is_authenticated %} {% if category in user.subscribed_categories.all%}
+            {% if user.is_authenticated %} 
+            {% if category in user.subscribed_categories.all%}
             <!-- Unsubscribe button -->
             <form method="post" action="{%url 'unsubscribe' category.id %}">
               {% csrf_token %}
@@ -41,7 +43,39 @@
 
   <!-- Main Content -->
   <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-    <h2>Latest Posts</h2>
+    <h2 class="mb-4">Latest Posts</h2>
+
+    {% if posts %} {% for post in posts %}
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img
+            src="{% static 'images/'|add:post.pic %}"
+            class="img-fluid rounded-start"
+            alt="{{ post.title }}" 
+            width = "150" />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+            <p class="card-text">
+              <small class="text-muted"
+                >by {{ post.author }} • {{ post.publish_date }}</small
+              >
+            </p>
+            <a
+              href="{% url 'post_details' post.id %}"
+              class="btn btn-sm btn-outline-primary"
+              >Read More</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %} {% else %}
+    <p>No posts available.</p>
+    {% endif %}
   </main>
 </div>
 {% endblock page_content %}
