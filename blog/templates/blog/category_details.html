@@ -19,7 +19,11 @@
     </div>
     {% endif %}
 
-    <a href="" class="btn btn-sm btn-outline-primary mt-3">Read More</a>
+    <a
+      href="{% url 'post_details' post.id%}"
+      class="btn btn-sm btn-outline-primary mt-3"
+      >Read More</a
+    >
   </div>
 </div>
 {% endfor %} {% else %}

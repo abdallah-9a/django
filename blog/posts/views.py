@@ -15,3 +15,9 @@ def CategoryDetails(request, category_id):
 
     context = {"category": category, "posts": posts}
     return render(request, "blog/category_details.html", context)
+
+
+def PostDetails(request, pk):
+    post = Post.objects.get(id=pk)
+    context = {"post": post}
+    return render(request, "blog/post_details.html", context)
