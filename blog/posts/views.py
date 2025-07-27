@@ -3,12 +3,15 @@ from .models import Post, Category
 from django.views.generic import CreateView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.forms import UserCreationForm
-
+from django.core.paginator import Paginator
 # Create your views here.
 def Home(request):
     categories = Category.objects.all()
-    posts = Post.objects.order_by("-publish_date")[:5] # '-' sign for descending order
-    context = {"categories": categories, 'posts':posts}
+    posts = Post.objects.order_by("-publish_date") # '-' sign for descending order
+    paginator = Paginator(posts,5) # 5 posts per page 
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {"categories": categories, 'page_obj':page_obj}
     return render(request, "blog/home.html", context)
 
 
