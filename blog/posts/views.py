@@ -104,3 +104,8 @@ class AddCategory(CreateView):
     model = Category
     fields = ["name",]
     template_name = "administration/add_category.html"
+    
+class EditCategory(UpdateView):
+    model = Category
+    fields = ["name",]
+    template_name = "administration/edit_category.html"

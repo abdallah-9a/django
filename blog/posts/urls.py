@@ -17,5 +17,6 @@ urlpatterns = [
     path("manage/users/promote/<int:user_id>",views.PromoteUser,name='promote_user'),
     path("manage/categories",views.ManageCategories,name="manage_categories"),
     path("manage/categories/add",views.AddCategory.as_view(),name="add_category"),
+    path("manage/categories/edit/<int:pk>",views.EditCategory.as_view(),name="edit_category"),
     
 ]
