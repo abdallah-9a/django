@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Post, Category, Comment
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator
@@ -59,3 +59,18 @@ class Signup(CreateView):
     
 def Admin(request):
     return render(request,"administration/admin.html")
+
+def ManagePosts(request):
+    posts = Post.objects.all()
+    context = {"posts":posts}
+    return render(request,"administration/manage_posts.html",context)
+
+class EditPost(UpdateView):
+    model = Post
+    fields = ["title","author","category","content","tages","pic"]
+    template_name = "administration/edit_post.html"
+    
+class DeletePost(DeleteView):
+    model = Post
+    template_name = "administration/delete_post.html"
+    success_url = reverse_lazy("manage_posts")

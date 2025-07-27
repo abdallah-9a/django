@@ -8,6 +8,9 @@ urlpatterns = [
     path("subscribe/<int:category_id>/", views.Subscribe, name="subscribe"),
     path("unsubscribe/<int:category_id>/", views.Unsubsribe, name="unsubscribe"),
     path("signup/",views.Signup.as_view(),name='signup'),
-    path("administration",views.Admin,name='admin')
+    path("manage",views.Admin,name='admin'),
+    path("manage/posts",views.ManagePosts,name='manage_posts'),
+    path("manage/post/edit/<int:pk>",views.EditPost.as_view(),name='edit_post'),
+    path("manage/post/delete/<int:pk>",views.DeletePost.as_view(),name='delete_post'),
     
 ]
