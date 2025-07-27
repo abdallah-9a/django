@@ -93,3 +93,14 @@ def PromoteUser(request, user_id):
     user.is_superuser = True
     user.save()
     return redirect("manage_users")
+
+def ManageCategories(request):
+    categories = Category.objects.all()
+    context = {"categories" : categories}
+    return render(request,"administration/manage_categories.html",context)
+
+
+class AddCategory(CreateView):
+    model = Category
+    fields = ["name",]
+    template_name = "administration/add_category.html"

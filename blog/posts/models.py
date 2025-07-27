@@ -35,6 +35,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse("category_details", kwargs={"category_id": self.pk})
+    
 
 forbidden_words = ["bad","ugly","fool"]
 
