@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
-
+import re
 # Create your models here.
 
 
@@ -31,3 +31,23 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+forbidden_words = ["bad","ugly","fool"]
+
+class Comment(models.Model):
+    content = models.CharField(max_length=200)
+    author = models.ForeignKey(User,on_delete=models.CASCADE,related_name="comments")
+    post_date  = models.DateTimeField(auto_now_add=True)
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name="comments")
+    
+    def filter(self):
+        pattern = re.compile(r"\b"+ '|'.join(re.escape(word) for word in forbidden_words) + r"\b" , flags=re.IGNORECASE)    
+        self.content = re.sub(pattern, lambda x: '*' * len(x.group()), self.content)
+        return self.content
+    
+    def save(self,*args, **kwargs):
+        self.filter()
+        return super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.content[:20]

@@ -61,8 +61,7 @@
             <p class="card-text">{{ post.content|truncatewords:30 }}</p>
             <p class="card-text">
               <small class="text-muted"
-                >by {{ post.author }} • {{ post.publish_date }}</small
-              >
+              >by {{ post.author }} • {{ post.publish_date }}</small>
             </p>
             <a
               href="{% url 'post_details' post.id %}"

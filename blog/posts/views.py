@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import Post, Category
+from .models import Post, Category, Comment
 from django.views.generic import CreateView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator
+from .forms import CommentForm
 # Create your views here.
 def Home(request):
     categories = Category.objects.all()
@@ -25,7 +26,17 @@ def CategoryDetails(request, category_id):
 
 def PostDetails(request, pk):
     post = Post.objects.get(id=pk)
-    context = {"post": post}
+    comments = post.comments.all()
+    form = CommentForm()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return redirect("post_details",pk = post.pk)
+    context = {"post": post, "form":form}
     return render(request, "blog/post_details.html", context)
 
 
