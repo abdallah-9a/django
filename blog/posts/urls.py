@@ -8,4 +8,6 @@ urlpatterns = [
     path("subscribe/<int:category_id>/", views.Subscribe, name="subscribe"),
     path("unsubscribe/<int:category_id>/", views.Unsubsribe, name="unsubscribe"),
     path("signup/",views.Signup.as_view(),name='signup'),
+    path("administration",views.Admin,name='admin')
+    
 ]
