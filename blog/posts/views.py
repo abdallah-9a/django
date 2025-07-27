@@ -5,6 +5,7 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator
 from .forms import CommentForm
+from django.contrib.auth.models import User
 # Create your views here.
 def Home(request):
     categories = Category.objects.all()
@@ -80,3 +81,15 @@ class AddPost(CreateView):
     model=Post
     fields = "__all__"
     template_name = "administration/add_post.html"
+    
+    
+def ManageUsers(request):
+    users = User.objects.all()
+    context = {"users": users}
+    return render(request, "administration/manage_users.html",context)
+
+def PromoteUser(request, user_id):
+    user = User.objects.get(id = user_id)
+    user.is_superuser = True
+    user.save()
+    return redirect("manage_users")

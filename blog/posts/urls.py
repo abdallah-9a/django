@@ -13,5 +13,7 @@ urlpatterns = [
     path("manage/post/edit/<int:pk>",views.EditPost.as_view(),name='edit_post'),
     path("manage/post/delete/<int:pk>",views.DeletePost.as_view(),name='delete_post'),
     path("manage/post/add",views.AddPost.as_view(),name='add_post'),
+    path("manage/users",views.ManageUsers,name='manage_users'),
+    path("manage/users/promote/<int:user_id>",views.PromoteUser,name='promote_user'),
     
 ]
