@@ -67,10 +67,16 @@ def ManagePosts(request):
 
 class EditPost(UpdateView):
     model = Post
-    fields = ["title","author","category","content","tages","pic"]
+    fields = ["title","category","content","tages","pic"]
     template_name = "administration/edit_post.html"
     
 class DeletePost(DeleteView):
     model = Post
     template_name = "administration/delete_post.html"
     success_url = reverse_lazy("manage_posts")
+    
+
+class AddPost(CreateView):
+    model=Post
+    fields = "__all__"
+    template_name = "administration/add_post.html"

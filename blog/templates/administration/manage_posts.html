@@ -32,7 +32,7 @@
     <div class="alert alert-info">No posts available.</div>
   {% endif %}
 
-  <a href="" class="btn btn-success mt-3">+ Add New Post</a>
+  <a href="{% url 'add_post' %}" class="btn btn-success mt-3">+ Add New Post</a>
 </div>
 
 {% endblock page_content %}

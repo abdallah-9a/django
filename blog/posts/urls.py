@@ -12,5 +12,6 @@ urlpatterns = [
     path("manage/posts",views.ManagePosts,name='manage_posts'),
     path("manage/post/edit/<int:pk>",views.EditPost.as_view(),name='edit_post'),
     path("manage/post/delete/<int:pk>",views.DeletePost.as_view(),name='delete_post'),
+    path("manage/post/add",views.AddPost.as_view(),name='add_post'),
     
 ]
