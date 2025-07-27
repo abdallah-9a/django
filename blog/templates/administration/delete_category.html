@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block page_content %}
+
+<div class="container mt-5">
+  <div class="alert alert-danger shadow-sm p-4 rounded">
+    <h4 class="mb-3">Confirm Deletion</h4>
+    <p>
+      Are you sure you want to delete the category
+      <strong>"{{ category.name }}"</strong>?
+    </p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Yes, Delete</button>
+      <a href="{% url 'manage_categories' %}" class="btn btn-secondary ms-2"
+        >Cancel</a
+      >
+    </form>
+  </div>
+</div>
+
+{% endblock page_content %}

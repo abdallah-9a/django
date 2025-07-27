@@ -18,5 +18,6 @@ urlpatterns = [
     path("manage/categories",views.ManageCategories,name="manage_categories"),
     path("manage/categories/add",views.AddCategory.as_view(),name="add_category"),
     path("manage/categories/edit/<int:pk>",views.EditCategory.as_view(),name="edit_category"),
+    path("manage/categories/delete/<int:pk>",views.DeleteCategory.as_view(),name="delete_category"),
     
 ]

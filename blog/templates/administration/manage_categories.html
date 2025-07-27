@@ -1,47 +1,58 @@
-{% extends "base.html" %}
-{% block page_content %}
+{% extends "base.html" %} {% block page_content %}
 
 <div class="container mt-4">
   <h2 class="mb-4">Manage Categories</h2>
 
   {% if categories %}
-    <table class="table table-bordered table-striped">
-      <thead class="table-light">
-        <tr>
-          <th>#</th>
-          <th>Category Name</th>
-          <th>Posts</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for category in categories %}
-        <tr>
-          <td>{{ forloop.counter }}</td>
-          <td>{{ category.name }}</td>
-          <td>{% if category.posts.all %}
-              <ul class="mb-0 ps-3">
-                {% for post in category.posts.all %}
-                  <li>{{ post.title }}</li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <span class="text-muted">No posts</span>
-            {% endif %}</td>
-          <td>
-            <a href="{%url 'edit_category' category.id%}" class="btn btn-sm btn-outline-secondary">Edit</a>
-            <a href="" class="btn btn-sm btn-outline-danger">Delete</a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <table class="table table-bordered table-striped">
+    <thead class="table-light">
+      <tr>
+        <th>#</th>
+        <th>Category Name</th>
+        <th>Posts</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category in categories %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ category.name }}</td>
+        <td>
+          {% if category.posts.all %}
+          <ul class="mb-0 ps-3">
+            {% for post in category.posts.all %}
+            <li>{{ post.title }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <span class="text-muted">No posts</span>
+          {% endif %}
+        </td>
+        <td>
+          <a
+            href="{%url 'edit_category' category.id%}"
+            class="btn btn-sm btn-outline-secondary"
+            >Edit</a
+          >
+          <a
+            href="{% url 'delete_category' category.id %}"
+            class="btn btn-sm btn-outline-danger"
+            >Delete</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
   {% else %}
-    <div class="alert alert-info">No categories found.</div>
+  <div class="alert alert-info">No categories found.</div>
   {% endif %}
 
   <div class="mt-3">
-    <a href="{% url 'add_category' %}" class="btn btn-primary">Add New Category</a>
+    <a href="{% url 'add_category' %}" class="btn btn-primary"
+      >Add New Category</a
+    >
   </div>
 </div>
 

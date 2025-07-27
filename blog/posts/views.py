@@ -109,3 +109,8 @@ class EditCategory(UpdateView):
     model = Category
     fields = ["name",]
     template_name = "administration/edit_category.html"
+    
+class DeleteCategory(DeleteView):
+    model = Category
+    success_url = reverse_lazy("manage_categories")
+    template_name = "administration/delete_category.html"
