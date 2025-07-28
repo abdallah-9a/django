@@ -63,6 +63,9 @@ def DislikePost(request, pk):
             post.dislikes.remove(request.user)
         else:
             post.dislikes.add(request.user)
+    if post.dislikes.count() == 10:  # Auto Delete after 10 Dislikes
+        post.delete()
+        return redirect("home")
     return redirect("post_details", pk = post.id)
             
 
@@ -104,7 +107,7 @@ class DeletePost(DeleteView):
 
 class AddPost(CreateView):
     model=Post
-    fields = "__all__"
+    fields = ["title","category","content","author","tages","pic"]
     template_name = "administration/add_post.html"
     
     
