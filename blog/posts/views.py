@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import Post, Category, Comment
+from .models import Post, Category, Comment, ForbiddenWords
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator
-from .forms import CommentForm
+from .forms import CommentForm,ForbiddensForm
 from django.contrib.auth.models import User
 # Create your views here.
 def Home(request):
@@ -114,3 +114,19 @@ class DeleteCategory(DeleteView):
     model = Category
     success_url = reverse_lazy("manage_categories")
     template_name = "administration/delete_category.html"
+    
+def ManageForbiddenWords(request):
+    forbidden_words = ForbiddenWords.objects.all()
+    form = ForbiddensForm
+    if request.method == 'POST':
+        form = ForbiddensForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("manage_forbiddens")
+    context = {"words":forbidden_words,"form":form}
+    return render(request,"administration/manage_forbiddens.html",context)
+
+def DelteForbidden(request,id):
+    word = ForbiddenWords.objects.get(id=id)
+    word.delete()
+    return redirect("manage_forbiddens")

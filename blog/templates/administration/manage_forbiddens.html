@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block page_content %}
+
+<div class="container mt-4">
+  <h2 class="mb-4">Manage Forbidden Words</h2>
+
+  <!-- List of existing forbidden words -->
+  {% if words %}
+    <table class="table table-bordered table-striped align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Word</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for word in words %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ word }}</td>
+          <td>
+            <a href="{%url 'delete_forbidden' word.id %}" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-info">No forbidden words added yet.</div>
+  {% endif %}
+
+  <!-- Form to add a new forbidden word -->
+   
+  <div class="mt-4 border p-4 bg-light rounded shadow-sm">
+    <h5>Add New Forbidden Word</h5>
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        {{form.as_p}}
+      </div>
+      <button type="submit" class="btn btn-primary">Add Word</button>
+    </form>
+  </div>
+
+</div>
+{% endblock page_content %}
