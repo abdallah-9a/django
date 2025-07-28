@@ -40,6 +40,22 @@ def PostDetails(request, pk):
     context = {"post": post, "form":form}
     return render(request, "blog/post_details.html", context)
 
+def LikePost(request, pk):
+    post = Post.objects.get(id=pk)
+    if request.method == "POST":
+        if request.user in post.dislikes.all():
+            post.dislikes.remove(request.user)
+        post.likes.add(request.user)
+    return redirect("post_details",pk = post.id)
+
+def DislikePost(request, pk):
+    post = Post.objects.get(id=pk)
+    if request.method== "POST":
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+        post.dislikes.add(request.user)
+    return redirect("post_details", pk = post.id)
+            
 
 def Unsubsribe(request, category_id):
     category = Category.objects.get(id=category_id)
