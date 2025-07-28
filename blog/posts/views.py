@@ -45,7 +45,12 @@ def LikePost(request, pk):
     if request.method == "POST":
         if request.user in post.dislikes.all():
             post.dislikes.remove(request.user)
-        post.likes.add(request.user)
+            post.likes.add(request.user)
+        elif request.user in post.likes.all():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+            
     return redirect("post_details",pk = post.id)
 
 def DislikePost(request, pk):
@@ -53,7 +58,11 @@ def DislikePost(request, pk):
     if request.method== "POST":
         if request.user in post.likes.all():
             post.likes.remove(request.user)
-        post.dislikes.add(request.user)
+            post.dislikes.add(request.user)
+        elif request.user in post.dislikes.all():
+            post.dislikes.remove(request.user)
+        else:
+            post.dislikes.add(request.user)
     return redirect("post_details", pk = post.id)
             
 
