@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Add Task</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="id_name" class="form-label">Task Name</label>
+      <input
+        type="text"
+        name="name"
+        id="id_name"
+        class="form-control"
+        required />
+    </div>
+    <div class="mb-3">
+      <label for="id_deadline" class="form-label">Deadline</label>
+      <input
+        type="datetime-local"
+        name="deadline"
+        id="id_deadline"
+        class="form-control"
+        required />
+    </div>
+    <button type="submit" class="btn btn-dark">Add Task</button>
+  </form>
+</div>
+{% endblock content %}

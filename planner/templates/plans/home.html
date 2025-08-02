@@ -1,1 +1,26 @@
-{% extends "base.html" %} {% block content %}{% endblock content %}
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <div class="row">
+    {% for plan in plans %}
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header bg-secondary text-dark">
+          <h5 class="card-title">{{ plan.name }}</h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-group">
+            {% for task in plan.tasks.all %}
+            <li class="list-group-item">
+              <strong>{{ task.name }}</strong> - Deadline: {{ task.deadline }}
+            </li>
+              {% endfor %}
+            <a href="{% url 'add_task' plan.id %}" class="btn btn-dark mb-3"
+              >Add New Task</a>
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock content %}
