@@ -21,3 +21,15 @@ class AddTask(CreateView):
         plan_id = self.kwargs.get("plan_id")
         form.instance.plan = Plan.objects.get(id=plan_id)
         return super().form_valid(form)
+
+
+class AddPlan(CreateView):
+    model = Plan
+    fields = [
+        "name",
+    ]
+    template_name = "plans/add_plan.html"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
