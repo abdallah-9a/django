@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Plan Details</h2>
+  <div class="card">
+    <div class="card-header bg-secondary text-dark">
+      <h5 class="card-title">{{ plan.name }}</h5>
+    </div>
+    <div class="card-body">
+      <h6>Tasks:</h6>
+      <ul class="list-group">
+        {% for task in plan.tasks.all %}
+        <li class="list-group-item">
+          <strong>{{ task.name }}</strong> - Deadline: {{ task.deadline }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock content %}

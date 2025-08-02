@@ -33,3 +33,9 @@ class AddPlan(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+def PlanDetails(request, plan_id):
+    plan = Plan.objects.get(id=plan_id)
+    context = {"plan": plan}
+    return render(request, "plans/plan_details.html", context)

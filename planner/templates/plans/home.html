@@ -5,7 +5,11 @@
     <div class="col-md-4">
       <div class="card mb-4">
         <div class="card-header bg-secondary text-dark">
-          <h5 class="card-title">{{ plan.name }}</h5>
+          <a
+            href="{% url 'plan_details' plan.id %}"
+            class="text-decoration-none text-dark"
+            ><h5 class="card-title">{{ plan.name }}</h5></a
+          >
         </div>
         <div class="card-body">
           <ul class="list-group">
@@ -13,9 +17,10 @@
             <li class="list-group-item">
               <strong>{{ task.name }}</strong> - Deadline: {{ task.deadline }}
             </li>
-              {% endfor %}
+            {% endfor %}
             <a href="{% url 'add_task' plan.id %}" class="btn btn-dark mb-3"
-              >Add New Task</a>
+              >Add New Task</a
+            >
           </ul>
         </div>
       </div>

@@ -15,7 +15,7 @@ class Plan(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("home")
+        return reverse("plan_Details", kwargs={"pk": self.pk})
 
 
 class Task(models.Model):
