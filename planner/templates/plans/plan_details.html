@@ -20,7 +20,7 @@
         <li
           class="list-group-item d-flex justify-content-between align-items-center">
           <span>
-            <strong>{{ task.name }}</strong> - Deadline: {{ task.deadline }} 
+            <strong>{{ task.name }}</strong> - Deadline: {{ task.deadline }}
             {%if task.deadline < now %}
             <span class="text-danger">(Missed)</span>
             {% elif task.completed %}
@@ -52,6 +52,9 @@
         </li>
         {% endfor %}
       </ul>
+      <a href="{% url 'add_task' plan.id %}" class="btn btn-dark mb-3"
+        >Add New Task</a
+      >
     </div>
   </div>
 </div>

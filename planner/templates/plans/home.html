@@ -18,9 +18,6 @@
               <strong>{{ task.name }}</strong> - Deadline: {{ task.deadline }}
             </li>
             {% endfor %}
-            <a href="{% url 'add_task' plan.id %}" class="btn btn-dark mb-3"
-              >Add New Task</a
-            >
           </ul>
         </div>
       </div>
