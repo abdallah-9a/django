@@ -17,8 +17,17 @@
       <h6>Tasks:</h6>
       <ul class="list-group">
         {% for task in plan.tasks.all %}
-        <li class="list-group-item">
-          <strong>{{ task.name }}</strong> - Deadline: {{ task.deadline }}
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center">
+          <span
+            ><strong>{{ task.name }}</strong> - Deadline: {{ task.deadline }}</span>
+          <form
+            method="post"
+            action="{% url 'delete_task' task.id %}"
+            class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
         </li>
         {% endfor %}
       </ul>

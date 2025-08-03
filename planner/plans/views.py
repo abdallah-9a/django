@@ -49,3 +49,9 @@ class DeletePlan(DeleteView):
     model = Plan
     template_name = "plans/delete_plan.html"
     success_url = reverse_lazy("home")
+
+
+class DeleteTask(DeleteView):
+    model = Task
+    template_name = "delete_task.html"
+    success_url = reverse_lazy("plan_details")
