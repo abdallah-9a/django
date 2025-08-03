@@ -19,8 +19,15 @@
         {% for task in plan.tasks.all %}
         <li
           class="list-group-item d-flex justify-content-between align-items-center">
-          <span
-            ><strong>{{ task.name }}</strong> - Deadline: {{ task.deadline }}</span>
+          <span>
+            <strong>{{ task.name }}</strong> - Deadline: {{ task.deadline }}
+            {%if task.deadline < now %}
+            <span class="text-danger">(Missed)</span>
+            {% elif task.completed %}
+            <span class="text-success">(Completed)</span>
+            {% endif %}
+          </span>
+          {% if task.deadline >= now and not task.completed %}
           <form
             method="post"
             action="{% url 'delete_task' task.id %}"
@@ -28,6 +35,16 @@
             {% csrf_token %}
             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
           </form>
+          <form
+            method="post"
+            action="{% url 'complete_task' task.id %}"
+            class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-sm">
+              Complete
+            </button>
+          </form>
+          {% endif %}
         </li>
         {% endfor %}
       </ul>

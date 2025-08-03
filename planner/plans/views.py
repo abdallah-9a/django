@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Plan, Task
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-
+from django.utils.timezone import now
 # Create your views here.
 
 
@@ -41,7 +41,7 @@ class AddPlan(CreateView):
 @login_required
 def PlanDetails(request, pk):
     plan = Plan.objects.get(id=pk)
-    context = {"plan": plan}
+    context = {"plan": plan, "now":now()}
     return render(request, "plans/plan_details.html", context)
 
 
@@ -56,3 +56,10 @@ class DeleteTask(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy("plan_details", kwargs={"pk": self.object.plan.pk})
+
+
+def CompleteTask(request, pk):
+    task = Task.objects.get(id=pk)
+    task.completed = True
+    task.save()
+    return redirect("plan_details", pk=task.plan.pk)
