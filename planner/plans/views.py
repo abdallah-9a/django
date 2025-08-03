@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from .models import Plan, Task
 from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
+@login_required
 def Home(request):
     user = request.user
     plans = user.plans.all()
@@ -35,6 +37,7 @@ class AddPlan(CreateView):
         return super().form_valid(form)
 
 
+@login_required
 def PlanDetails(request, plan_id):
     plan = Plan.objects.get(id=plan_id)
     context = {"plan": plan}
