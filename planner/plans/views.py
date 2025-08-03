@@ -39,8 +39,8 @@ class AddPlan(CreateView):
 
 
 @login_required
-def PlanDetails(request, plan_id):
-    plan = Plan.objects.get(id=plan_id)
+def PlanDetails(request, pk):
+    plan = Plan.objects.get(id=pk)
     context = {"plan": plan}
     return render(request, "plans/plan_details.html", context)
 
@@ -53,5 +53,6 @@ class DeletePlan(DeleteView):
 
 class DeleteTask(DeleteView):
     model = Task
-    template_name = "delete_task.html"
-    success_url = reverse_lazy("plan_details")
+
+    def get_success_url(self):
+        return reverse_lazy("plan_details", kwargs={"pk": self.object.plan.pk})
