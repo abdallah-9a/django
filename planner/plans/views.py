@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Plan, Task
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -42,3 +43,9 @@ def PlanDetails(request, plan_id):
     plan = Plan.objects.get(id=plan_id)
     context = {"plan": plan}
     return render(request, "plans/plan_details.html", context)
+
+
+class DeletePlan(DeleteView):
+    model = Plan
+    template_name = "plans/delete_plan.html"
+    success_url = reverse_lazy("home")
