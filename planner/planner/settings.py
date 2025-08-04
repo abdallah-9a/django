@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     # Local
     "plans",
     "accounts",
+    # 3rd Party
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
