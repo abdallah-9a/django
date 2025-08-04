@@ -17,4 +17,12 @@ class PlanDetails(RetrieveUpdateDestroyAPIView):
     serializer_class = PlanSerializer
 
     def get_queryset(self):
-        return Plan.objects.filter(user=self.request.user)
+        return Plan.objects.filter(user=self.request.user, id=self.kwargs["pk"])
+
+
+class TaskList(ListAPIView):
+    serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        plan = Plan.objects.get(user=self.request.user, id=self.kwargs["pk"])
+        return plan.tasks.all()

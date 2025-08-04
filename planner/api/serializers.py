@@ -11,4 +11,4 @@ class PlanSerializer(ModelSerializer):
 class TaskSerializer(ModelSerializer):
     class Meta:
         model = Task
-        fields = "___all__"
+        fields = "__all__"
