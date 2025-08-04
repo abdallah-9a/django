@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Local
     "plans",
     "accounts",
+    "api",
     # 3rd Party
     "rest_framework",
 ]
