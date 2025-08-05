@@ -140,8 +140,10 @@ LOGOUT_REDIRECT_URL = "home"
 LOGIN_URL = "login"
 
 # Email Server Configuration
-EMAIL_HOST = "smtp.gmail.com"  # simple main transfer protocol
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"  # simple mail transfer protocol
 EMAIL_HOST_USER = "abdullahrabea240@gmail.com"
-EMIAL_HOST_PASSWORD = "shxn loah eorg hdep"
-EMAIL_POST = 587
+EMAIL_HOST_PASSWORD = "vnelphwwouqudhdo"  # 16 digit password (changable due to host user)
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
