@@ -170,7 +170,8 @@ def Admin(request):
 
 def ManagePosts(request):
     posts = Post.objects.all()
-    context = {"posts": posts}
+    total_posts = Post.objects.count()
+    context = {"posts": posts, "total_posts": total_posts}
     return render(request, "administration/manage_posts.html", context)
 
 
