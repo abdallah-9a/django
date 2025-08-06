@@ -44,7 +44,11 @@ def PostDetails(request, pk):
             comment.author = request.user
             comment.save()
             return redirect("post_details", pk=post.pk)
-    context = {"post": post, "form": form}
+    tags = post.tages.values_list("id", flat=True)
+    similar_posts = Post.objects.filter(tages__in=tags).exclude(
+        id=post.id
+    )  # excluding the current post
+    context = {"post": post, "form": form, "similar_posts": similar_posts}
     return render(request, "blog/post_details.html", context)
 
 
@@ -147,11 +151,13 @@ def Subscribe(request, category_id):
 
     return redirect("home")
 
+
 def PostsWithTags(request, tag):
     posts = Post.objects.filter(tages__name__icontains=tag)
-    context = {"posts":posts, "tag":tag}
-    return render(request,"blog/posts_list.html",context)
-    
+    context = {"posts": posts, "tag": tag}
+    return render(request, "blog/posts_list.html", context)
+
+
 class Signup(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
