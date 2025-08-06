@@ -21,7 +21,9 @@
         <ul class="list-inline">
           {% for tag in post.tages.all %}
           <li class="list-inline-item">
-            <a href = "{%url 'posts_with_tags' tag%}"><span class="badge bg-primary">{{ tag }}</span></a>
+            <a href="{%url 'posts_with_tags' tag%}"
+              ><span class="badge bg-primary">{{ tag }}</span></a
+            >
           </li>
           {% endfor %}
         </ul>
@@ -84,6 +86,22 @@
           <a href="{% url 'login' %}">Login</a> to leave a comment.
         </p>
         {% endif %}
+      </div>
+
+      <!-- Recommendation Section -->
+      <div class="mt-5">
+        {%if similar_posts%}
+        <h5>Similar Posts</h5>
+        <ul>
+          {% for similar_post in similar_posts %}
+          <li>
+            <a href="{% url 'post_details' similar_post.id %}"
+              >{{ similar_post.title }}</a
+            >
+          </li>
+          {% endfor %} 
+          {%endif%}
+        </ul>
       </div>
     </div>
 
