@@ -209,7 +209,8 @@ def PromoteUser(request, user_id):
 
 def ManageCategories(request):
     categories = Category.objects.all()
-    context = {"categories": categories}
+    total_categories = Category.objects.count()
+    context = {"categories": categories, "total_categories": total_categories}
     return render(request, "administration/manage_categories.html", context)
 
 
