@@ -147,7 +147,11 @@ def Subscribe(request, category_id):
 
     return redirect("home")
 
-
+def PostsWithTags(request, tag):
+    posts = Post.objects.filter(tages__name__icontains=tag)
+    context = {"posts":posts, "tag":tag}
+    return render(request,"blog/posts_list.html",context)
+    
 class Signup(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("login")
