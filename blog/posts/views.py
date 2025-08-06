@@ -195,7 +195,8 @@ class AddPost(CreateView):
 
 def ManageUsers(request):
     users = User.objects.all()
-    context = {"users": users}
+    total_users = User.objects.count()
+    context = {"users": users, "total_users": total_users}
     return render(request, "administration/manage_users.html", context)
 
 
