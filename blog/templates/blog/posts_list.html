@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% load static %} {% block page_content %}
+<div class="container mt-4">
+  <h1 class="mb-4">Posts with tags {{tag}}</h1>
+
+  {% if posts %}
+  <div class="row">
+    {% for post in posts %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <img
+          src="{% static 'images/'|add:post.pic %}"
+          class="card-img-top"
+          alt="{{ post.title }}" />
+        <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+          <a href="{% url 'post_details' post.id %}" class="btn btn-primary"
+            >Read More</a
+          >
+        </div>
+        <div class="card-footer text-muted">
+          <small>
+            Category:
+            <a href="{% url 'category_details' post.category.id %}"
+              >{{ post.category.name }}</a
+            >
+          </small>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No posts available.</p>
+  {% endif %}
+</div>
+{% endblock page_content %}

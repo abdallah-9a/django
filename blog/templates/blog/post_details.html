@@ -16,11 +16,12 @@
       </p>
       {% endif %}
       <div class="mb-2">
+        <!-- Tags section -->
         <p><strong>Tags:</strong></p>
         <ul class="list-inline">
           {% for tag in post.tages.all %}
           <li class="list-inline-item">
-            <span class="badge bg-primary">{{ tag }}</span>
+            <a href = "{%url 'posts_with_tags' tag%}"><span class="badge bg-primary">{{ tag }}</span></a>
           </li>
           {% endfor %}
         </ul>
