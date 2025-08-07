@@ -29,22 +29,42 @@ A more advanced blog platform exploring custom admin features, user promotions, 
 
 #### 🔧 Features
 
-- **User System**: Signup, Login, Logout
+- **User System**:
+  - Signup with email validation, Login, Logout
+  - Custom user creation form with email requirement
 - **Admin Panel for Superusers**:
+  - Comprehensive management dashboard
   - Manage posts, categories, and forbidden words
   - Promote users to superusers
+  - User management with promotion capabilities
 - **Posts**:
-  - CRUD operations
+  - CRUD operations with tagging system
   - Auto-delete after 10 dislikes
-  - Like/dislike system
-- **Categories Sidebar**:
-  - View and subscribe/unsubscribe to categories
-- **Homepage Pagination**:
-  - 5 posts per page
-  - Latest 5 posts section
-- **Comments**:
+  - Like/dislike system with toggle functionality
+  - Similar posts recommendation based on tags
+  - Tag-based post filtering and browsing
+- **Categories System**:
+  - Category-based post organization
+  - Subscribe/unsubscribe to categories with email notifications
+  - Category details pages with filtered posts
+- **Email Notifications**:
+  - Subscription confirmation emails (HTML & plain text)
+  - SMTP email backend integration
+  - Graceful email error handling
+- **Homepage Features**:
+  - Pagination (5 posts per page)
+  - Latest posts display
+  - Category sidebar with subscription status
+- **Comments System**:
   - Only for logged-in users
-  - Filtered for forbidden words
+  - Real-time forbidden word filtering with censorship
+  - Comments linked to specific posts
+- **Tagging System**:
+  - Django-taggit integration for post tagging
+  - Tag-based post discovery and filtering
+- **Database**:
+  - MySQL integration with custom configuration
+  - Egypt timezone support
 
 ---
 
