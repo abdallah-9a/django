@@ -61,6 +61,32 @@
         right: 20px;
         z-index: 1050;
       }
+
+      /* Custom logout button styling */
+      .dropdown-item.logout-btn {
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        padding: 0.375rem 1rem;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .dropdown-item.logout-btn:hover {
+        background-color: #dc3545;
+        color: white !important;
+      }
+
+      .dropdown-item.logout-btn:focus {
+        box-shadow: none;
+        outline: none;
+      }
+
+      /* Ensure form doesn't add extra spacing */
+      .dropdown-menu form {
+        margin: 0;
+        padding: 0;
+      }
     </style>
   </head>
   <body>
@@ -124,9 +150,17 @@
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a class="dropdown-item" href="">
-                    <i class="fas fa-sign-out-alt me-2"></i>Logout
-                  </a>
+                  <form
+                    method="post"
+                    action="{% url 'logout' %}"
+                    class="d-inline">
+                    {% csrf_token %}
+                    <button
+                      type="submit"
+                      class="dropdown-item logout-btn text-danger">
+                      <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </button>
+                  </form>
                 </li>
               </ul>
             </li>
