@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from .forms import LoginForm
+from .forms import LoginForm, SignUpForm
 from django.contrib.auth import authenticate, login
 
 # Create your views here.
@@ -28,3 +28,17 @@ from django.contrib.auth import authenticate, login
 
 def Home(request):
     return render(request, "base.html")
+
+
+def SignUp(request):
+    if request.methpd == "POST":
+        user_form = SignUpForm(request.POST)
+        if user_form.is_valid():
+            user_form.save(commit=False)
+            user_form.set_password(user_form.cleaned_data["password"])
+            user_form.save()
+            context = {"form": user_form}
+            return render(request, "account/register_done", context)
+    user_form = SignUpForm()
+    context = {"form": user_form}
+    return render(request, "account/register.html", context)
