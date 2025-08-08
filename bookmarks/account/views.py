@@ -31,14 +31,14 @@ def Home(request):
 
 
 def SignUp(request):
-    if request.methpd == "POST":
+    if request.method == "POST":
         user_form = SignUpForm(request.POST)
         if user_form.is_valid():
-            user_form.save(commit=False)
-            user_form.set_password(user_form.cleaned_data["password"])
-            user_form.save()
-            context = {"form": user_form}
-            return render(request, "account/register_done", context)
+            new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data["password"])
+            new_user.save()
+            context = {"new_user": new_user}
+            return render(request, "registration/signup_done", context)
     user_form = SignUpForm()
-    context = {"form": user_form}
-    return render(request, "account/register.html", context)
+    context = {"user_form": user_form}
+    return render(request, "registration/signup.html", context)
