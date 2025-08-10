@@ -18,13 +18,27 @@ class SignUpForm(forms.ModelForm):
         data = self.cleaned_data
         if data['password'] != data['password2']:
             raise forms.ValidationError("Password don\'t match")
-        
+        return data['password2']
+    
+    def clean_email(self):
+        data = self.cleaned_data["email"]
+        if User.objects.filter(email = data).exists():
+            raise forms.ValidationError("Email already in use")
         return data
 
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
         fields =['first_name','last_name','email']
+    
+    def clean_email(self):
+        data = self.cleaned_data["email"]
+        user = User.objects.exclude(id = self.instance.id).filter(email=data)
+        if user.exists():
+            raise forms.ValidationError("Email already in use")
+        
+        return data
+    
 
 class ProfileForm(forms.ModelForm):
     class Meta:
