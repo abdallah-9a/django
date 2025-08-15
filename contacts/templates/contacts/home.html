@@ -27,24 +27,26 @@
         <td>{{ c.phone|default:'-' }}</td>
         <td>{{ c.created_at|date:'Y-m-d H:i' }}</td>
         <td class="text-center">
-          <div class="btn-group btn-group-sm" role="group">
-            <a
-              href="#"
-              class="btn btn-outline-secondary disabled"
-              aria-disabled="true"
-              >View</a
-            >
+          <div class="d-flex justify-content-center gap-2">
             <a
               href="{% url 'edit_contact' c.pk %}"
-              class="btn btn-outline-primary"
-              >Edit</a
-            >
-            <a
-              href="#"
-              class="btn btn-outline-danger disabled"
-              aria-disabled="true"
-              >Delete</a
-            >
+              class="btn btn-sm btn-primary"
+              title="Edit">
+              Edit
+            </a>
+            <form
+              method="post"
+              action="{% url 'delete_contact' c.pk %}"
+              onsubmit="return confirm('Delete this contact?');"
+              class="m-0 p-0">
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="btn btn-sm btn-danger"
+                title="Delete">
+                Delete
+              </button>
+            </form>
           </div>
         </td>
       </tr>

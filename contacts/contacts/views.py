@@ -27,3 +27,7 @@ class EditContact(UpdateView):
     fields= ["username","email","phone"]
     template_name = "contacts/edit_contact.html"
     success_url = reverse_lazy("home") 
+    
+class DeleteContact(DeleteView):
+    model = Contact
+    success_url = reverse_lazy("home")
