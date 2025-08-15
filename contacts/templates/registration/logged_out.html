@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block title %}Logged Out - Contacts Manager{%
+endblock %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="alert alert-info shadow-sm">
+      <h2 class="h5 fw-bold">Logged Out</h2>
+      <p class="mb-2">You have been logged out.</p>
+      <a class="btn btn-primary" href="{% url 'login' %}">Login again</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
