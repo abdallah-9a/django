@@ -18,9 +18,15 @@ class AddContact(CreateView):
     template_name = "contacts/add_contact.html"
     success_url = reverse_lazy("home") # redirect to home
     
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.instance.user = self.request.user
+    #     return super().form_valid(form)
+    
+    # Assign current user before validation
+    def get_form(self, form_class=None):
+       form = super().get_form(form_class)
+       form.instance.user = self.request.user
+       return form
     
 class EditContact(UpdateView):
     model = Contact

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 # Create your models here.
 
 class Contact(models.Model):
@@ -11,12 +12,17 @@ class Contact(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="contacts")
     
     class Meta:
-        unique_together = ("email","username")
-    
-    
+        unique_together = ("email","user")
+     
     def __str__(self):
         return f"{self.username} <{self.email}>"
     
     def get_absolute_url(self):
         return reverse("home")
+    
+    def clean(self):
+        # check for the same user and email exclude the current contact
+        if Contact.objects.filter(user = self.user, email = self.email).exclude(pk=self.pk).exists():
+            raise ValidationError({"email": "You already have a contact with this email."})
+        return super().clean()
     
