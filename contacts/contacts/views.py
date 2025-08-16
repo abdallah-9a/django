@@ -16,9 +16,9 @@ class Home(ListView):
     model = Contact
     template_name = "contacts/home.html"
     context_object_name = "contacts"
-    
+    ordering = ["-created_at"]
     def get_queryset(self):
-        queryset = Contact.objects.filter(user = self.request.user)
+        queryset = super().get_queryset().filter(user = self.request.user)
         query = self.request.GET.get("q")
         if query:
             queryset = queryset.filter(Q(username__icontains=query)|
