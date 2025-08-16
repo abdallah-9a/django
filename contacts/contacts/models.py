@@ -24,5 +24,8 @@ class Contact(models.Model):
         # check for the same user and email exclude the current contact
         if Contact.objects.filter(user = self.user, email = self.email).exclude(pk=self.pk).exists():
             raise ValidationError({"email": "You already have a contact with this email."})
+        # check for duplicated phone number
+        if Contact.objects.filter(user=self.user, phone = self.phone).exclude(pk=self.pk):
+            raise ValidationError({"phone":" You already have a contact with this phone number."})
         return super().clean()
     
