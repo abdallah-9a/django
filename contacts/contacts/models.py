@@ -2,12 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 # Create your models here.
 
 class Contact(models.Model):
     username = models.CharField(max_length=50)
     email = models.EmailField()
-    phone = models.CharField(max_length=15,blank=True,null=True) # Need to handle it allow only phones number
+    phone = models.CharField(max_length=15,blank=True,null=True, 
+                             validators= [RegexValidator(regex = r"^\+?\d{7,15}$",
+                                                        message="Phone number must be between 7 and 15, and may start with +.")])
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="contacts")
     
