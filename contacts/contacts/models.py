@@ -12,10 +12,11 @@ class Contact(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name="contacts")
     
     class Meta:
-        unique_together = ("email","user")
+        # unique_together = ("email","user") # it become deprecated
+        constraints = [models.UniqueConstraint(fields=["email","user"], name="unique_user_email")]
      
     def __str__(self):
-        return f"{self.username} <{self.email}>"
+        return f"{self.username} <{self.email}> {self.phone}"
     
     def get_absolute_url(self):
         return reverse("home")
@@ -25,7 +26,7 @@ class Contact(models.Model):
         if Contact.objects.filter(user = self.user, email = self.email).exclude(pk=self.pk).exists():
             raise ValidationError({"email": "You already have a contact with this email."})
         # check for duplicated phone number
-        if Contact.objects.filter(user=self.user, phone = self.phone).exclude(pk=self.pk):
+        if Contact.objects.filter(user=self.user, phone = self.phone).exclude(pk=self.pk).exists():
             raise ValidationError({"phone":" You already have a contact with this phone number."})
         return super().clean()
     
