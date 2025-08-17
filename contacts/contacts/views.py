@@ -19,6 +19,7 @@ class Home(ListView):
     template_name = "contacts/home.html"
     context_object_name = "contacts"
     ordering = ["-created_at"]
+    paginate_by = 10  # show only 10 contacts per page
     def get_queryset(self):
         queryset = super().get_queryset().filter(user = self.request.user)
         query = self.request.GET.get("q")

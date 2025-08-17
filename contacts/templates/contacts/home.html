@@ -40,7 +40,8 @@
     {% endif %}
     <div class="col-12 mt-1">
       <span class="text-muted small">
-        {% with total=contacts|length %} Total: {{ total }} {% endwith%}
+        Total: {% if is_paginated %}{{ page_obj.paginator.count }}{% else %}{{
+        contacts|length }}{% endif %}
       </span>
     </div>
   </form>
@@ -99,4 +100,64 @@
     </tbody>
   </table>
 </div>
-{% endblock %}
+{% if is_paginated %}
+<nav aria-label="Contacts pagination" class="mt-3">
+  <ul class="pagination pagination-sm mb-0 flex-wrap">
+    {# Helper to append existing q param #} {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page=1{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"
+        aria-label="First"
+        >«</a
+      >
+    </li>
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"
+        aria-label="Previous"
+        >‹</a
+      >
+    </li>
+    {% else %}
+    <li class="page-item disabled"><span class="page-link">«</span></li>
+    <li class="page-item disabled"><span class="page-link">‹</span></li>
+    {% endif %} {# Display a sliding window of pages #} {% for num in page_obj.paginator.page_range %} {% if num == page_obj.number %}
+    <li class="page-item active" aria-current="page">
+      <span class="page-link">{{ num }}</span>
+    </li>
+    {% elif num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' or num == 1 or num == page_obj.paginator.num_pages %}
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"
+        >{{ num }}</a
+      >
+    </li>
+    {% elif num == page_obj.number|add:'-3' or num == page_obj.number|add:'3' %}
+    <li class="page-item disabled"><span class="page-link">…</span></li>
+    {% endif %} {% endfor %} {% if page_obj.has_next %}
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"
+        aria-label="Next"
+        >›</a
+      >
+    </li>
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}"
+        aria-label="Last"
+        >»</a
+      >
+    </li>
+    {% else %}
+    <li class="page-item disabled"><span class="page-link">›</span></li>
+    <li class="page-item disabled"><span class="page-link">»</span></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %} {% endblock %}
