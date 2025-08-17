@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from .models import Contact
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
 from django.db.models import Q
+import csv
 # Create your views here.
 
 # def Home(request):
@@ -51,3 +53,26 @@ class EditContact(UpdateView):
 class DeleteContact(DeleteView):
     model = Contact
     success_url = reverse_lazy("home")
+    
+def ExportContacts(request):
+    contacts = Contact.objects.filter(user=request.user)
+    contacts = contacts.order_by("-created_at")
+    # set response headers
+    response = HttpResponse(content_type = "text/csv") # to tell browser type of file
+    filename = "contacts.csv"
+    response['Content-Disposition'] = f"attachment; filename={filename}" # attechment used to download file to show only(inline)
+    
+    # write
+    writer = csv.writer(response) # handles formating 
+    
+    writer.writerow(['Name','Email', 'Phone number', 'Created At (UTC)']) # header row
+    
+    for contact in contacts:
+        writer.writerow([contact.username,
+                         contact.email,
+                         contact.phone or "",
+                         contact.created_at.strftime("%Y-%m%d %H:%M:%S"),
+                         ])
+        
+    return response
+    
