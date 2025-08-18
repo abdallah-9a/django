@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import Contact
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.db.models import Q
 import csv
@@ -14,11 +15,12 @@ import csv
 #         return render(request,"contacts/home.html",context)
 #     return redirect("login")
 
-class Home(ListView):
+class Home(LoginRequiredMixin, ListView):
     model = Contact
     template_name = "contacts/home.html"
     context_object_name = "contacts"
     ordering = ["-created_at"]
+    # login_url = reverse_lazy("login") # to redirect user to login if not logged in
     paginate_by = 10  # show only 10 contacts per page
     def get_queryset(self):
         queryset = super().get_queryset().filter(user = self.request.user)
