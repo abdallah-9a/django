@@ -6,6 +6,7 @@ from django.urls import reverse
 
 
 class Profile(AbstractUser):
+    email = models.EmailField(unique=True)
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
     resume = models.FileField(upload_to="resumes/", blank=True, null=True)
     bio = models.TextField(null=True, blank=True)
