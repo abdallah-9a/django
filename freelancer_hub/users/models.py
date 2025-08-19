@@ -14,4 +14,4 @@ class Profile(AbstractUser):
     location = models.CharField(max_length=120, blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse("profile_details", kwargs={"pk": self.pk})
+        return reverse("profile_detail", kwargs={"pk": self.pk})
