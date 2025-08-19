@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Login | Freelancer
+Hub{% endblock %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5 col-lg-4">
+    <h1 class="h4 mb-3 text-center">Login</h1>
+    {% if form.errors %}
+    <div class="alert alert-danger py-2">Invalid username or password.</div>
+    {% endif %} {% if next and not user.is_authenticated %}
+    <div class="alert alert-info py-2 small">Please login to continue.</div>
+    {% endif %}
+    <form method="post" novalidate>
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label" for="id_username">Username</label>
+        {{ form.username }}
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="id_password">Password</label>
+        {{ form.password }}
+      </div>
+      {% if form.non_field_errors %}
+      <div class="text-danger small mb-2">{{ form.non_field_errors }}</div>
+      {% endif %} {% if next %}
+      <input type="hidden" name="next" value="{{ next }}" />
+      {% endif %}
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
