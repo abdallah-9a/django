@@ -3,7 +3,7 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from .models import Profile
 from .forms import SignUpForm
 from django.urls import reverse_lazy
-
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 # Create your views here.
 
 
@@ -19,7 +19,11 @@ class ProfileDetail(DetailView):
     template_name = "users/profile_detail.html"
 
 
-class ProfileEdit(UpdateView):
+class ProfileEdit(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Profile
     fields = ["avatar", "bio", "phone_number", "location", "first_name", "last_name"]
     template_name = "users/profile_edit.html"
+
+    # to ensure that user is the owner
+    def test_func(self):
+        return self.request.user == self.get_object()
