@@ -58,9 +58,14 @@
         class="btn btn-sm btn-outline-primary"
         >Edit Project</a
       >
+      <a
+        href="{% url 'delete_project' project.pk %}"
+        class="btn btn-sm btn-outline-danger"
+        >Delete</a
+      >
       {% if project.status %}
       <button
-        class="btn btn-sm btn-outline-danger"
+        class="btn btn-sm btn-outline-secondary"
         disabled
         title="Coming soon">
         Close Project

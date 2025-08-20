@@ -1,0 +1,31 @@
+{% extends 'base.html' %} {% block title %}Delete Project | {{ object.title }}
+{%endblock %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8 col-xl-7">
+    <h1 class="h5 mb-4">Delete Project</h1>
+    <div class="alert alert-warning small">
+      <strong>Warning:</strong>
+       This action cannot be undone. The project "{{object.title }}" will be permanently removed.
+    </div>
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <p class="mb-1">Are you sure you want to delete this project?</p>
+        <ul class="small text-muted">
+          <li>ID: {{ object.pk }}</li>
+          <li>Budget: ${{ object.budget }}</li>
+          <li>Deadline: {{ object.deadline|date:'M d, Y' }}</li>
+        </ul>
+      </div>
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-danger btn-sm">Yes, delete</button>
+        <a
+          href="{% url 'project_detail' object.pk %}"
+          class="btn btn-outline-secondary btn-sm"
+          >Cancel</a
+        >
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
