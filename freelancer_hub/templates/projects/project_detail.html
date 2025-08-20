@@ -45,28 +45,26 @@
         <div class="border p-3 rounded h-100">
           <div class="text-uppercase text-muted small fw-semibold">Status</div>
           <div>
-            {% if project.status %}Accepting proposals{% else %}Closed
-            {% endif%}
+            {% if project.status %}Accepting proposals{% else %}Closed {%endif%}
           </div>
         </div>
       </div>
     </div>
 
     {% if user.is_authenticated and user.pk == project.created_by_id %}
-    <div class="mb-4">
+    <div class="mb-4 d-flex gap-2">
       <a
-        href="#"
-        class="btn btn-sm btn-outline-primary disabled"
-        aria-disabled="true"
-        >Edit (coming soon)</a
+        href="{% url 'edit_project' project.pk %}"
+        class="btn btn-sm btn-outline-primary"
+        >Edit Project</a
       >
       {% if project.status %}
-      <a
-        href="#"
-        class="btn btn-sm btn-outline-danger disabled"
-        aria-disabled="true"
-        >Close Project</a
-      >
+      <button
+        class="btn btn-sm btn-outline-danger"
+        disabled
+        title="Coming soon">
+        Close Project
+      </button>
       {% endif %}
     </div>
     {% else %} {% if project.status %}
