@@ -63,7 +63,14 @@
     >
     {% endif %}
     <hr class="my-4" />
-    <h2 class="h6 mb-3">Projects</h2>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h2 class="h6 mb-0">Projects</h2>
+      {% if user.is_authenticated and user.pk == profile.pk %}
+      <a href="{% url 'add_project' %}" class="btn btn-sm btn-primary"
+        >Add Project</a
+      >
+      {% endif %}
+    </div>
     {% with profile.projects.all as projects %} {% if projects %}
     <ul class="list-unstyled small mb-0">
       {% for project in projects %}

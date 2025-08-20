@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, UpdateView,DeleteView
+from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
 from .models import Project
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
@@ -17,7 +17,15 @@ class ProjectDetail(DetailView):
     context_object_name = "project"
     template_name = "projects/project_detail.html"
     
-
+class ProjectCreate(LoginRequiredMixin,CreateView):
+    model = Project
+    fields = ["title","description","budget","deadline"]
+    template_name = "projects/project_add.html"
+    
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user # assign current user 
+        return super().form_valid(form)
+    
 class ProjectEdit(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Project
     fields = ["title","description","budget","deadline","status"]
