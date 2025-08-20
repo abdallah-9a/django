@@ -62,6 +62,23 @@
       >Edit Profile</a
     >
     {% endif %}
+    <hr class="my-4" />
+    <h2 class="h6 mb-3">Projects</h2>
+    {% with profile.projects.all as projects %} {% if projects %}
+    <ul class="list-unstyled small mb-0">
+      {% for project in projects %}
+      <li class="mb-2">
+        <a href="{% url 'project_detail' project.pk %}">{{ project.title }}</a>
+        <span class="text-muted"
+          >- {{ project.deadline|date:'M d, Y' }}{% if not project.status %}
+          (Closed){% endif %}</span
+        >
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-muted small mb-0">No projects yet.</p>
+    {% endif %} {% endwith %}
   </div>
 </div>
 {% endblock %}
