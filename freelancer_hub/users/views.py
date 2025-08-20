@@ -21,7 +21,7 @@ class ProfileDetail(DetailView):
 
 class ProfileEdit(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Profile
-    fields = ["avatar", "bio", "phone_number", "location", "first_name", "last_name"]
+    fields = ["avatar","resume", "bio", "phone_number", "location", "first_name", "last_name"]
     template_name = "users/profile_edit.html"
 
     # to ensure that user is the owner
