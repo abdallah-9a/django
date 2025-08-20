@@ -8,6 +8,7 @@ class ProjectsList(ListView):
     model = Project
     context_object_name = "Projects"
     template_name = "projects/home.html"
+    ordering = ["-status"]
 
 
 class ProjectDetail(DetailView):
