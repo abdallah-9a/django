@@ -11,6 +11,9 @@
           >{{ project.title|truncatechars:40 }}</a
         >
       </h2>
+      <p class="text-muted small mb-1">
+        Posted {{ project.created_at|timesince }} ago
+      </p>
       <div class="small text-muted mb-2">
         by
         <a href="{% url 'profile_detail' project.created_by.pk %}"
