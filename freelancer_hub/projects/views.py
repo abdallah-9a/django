@@ -9,13 +9,13 @@ class ProjectsList(ListView):
     model = Project
     context_object_name = "Projects"
     template_name = "projects/home.html"
-    ordering = ["-status"]
+    ordering = ["-created_at","-status"]
     paginate_by = 21
     
     def get_queryset(self):
         # to apply to other's projects not yours
         if self.request.user.is_authenticated:
-            return Project.objects.exclude(created_by = self.request.user).order_by("-status")
+            return Project.objects.exclude(created_by = self.request.user).order_by("-created_at","-status")
         return super().get_queryset()
     
 
