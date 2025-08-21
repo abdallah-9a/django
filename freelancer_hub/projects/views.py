@@ -10,6 +10,7 @@ class ProjectsList(ListView):
     context_object_name = "Projects"
     template_name = "projects/home.html"
     ordering = ["-status"]
+    paginate_by = 21
     
     def get_queryset(self):
         # to apply to other's projects not yours
