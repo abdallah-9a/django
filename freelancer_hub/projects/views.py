@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView, View
 from .models import Project
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
@@ -50,3 +50,17 @@ class ProjectDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     
     def test_func(self):
         return self.request.user.id == self.get_object().created_by.id
+
+class CloseProject(LoginRequiredMixin, UserPassesTestMixin,View):
+    
+    def post(self, request, pk):
+        project = get_object_or_404(Project, pk=pk)
+        project.status = False
+        project.save()
+        return redirect("project_detail", pk=pk)
+    
+    def test_func(self):
+        project = get_object_or_404(Project, pk = self.kwargs["pk"])
+        return self.request.user == project.created_by
+    
+    

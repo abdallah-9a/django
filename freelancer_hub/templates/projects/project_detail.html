@@ -64,12 +64,15 @@
         >Delete</a
       >
       {% if project.status %}
-      <button
-        class="btn btn-sm btn-outline-secondary"
-        disabled
-        title="Coming soon">
-        Close Project
-      </button>
+      <form
+        method="post"
+        action="{% url 'close_project' project.pk %}"
+        class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-sm btn-outline-secondary">
+          Close Project
+        </button>
+      </form>
       {% endif %}
     </div>
     {% else %} {% if project.status %}
