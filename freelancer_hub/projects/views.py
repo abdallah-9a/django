@@ -10,13 +10,18 @@ class ProjectsList(ListView):
     context_object_name = "Projects"
     template_name = "projects/home.html"
     ordering = ["-status"]
-
+    
+    def get_queryset(self):
+        # to apply to other's projects not yours
+        return Project.objects.exclude(created_by = self.request.user)
+    
 
 class ProjectDetail(DetailView):
     model = Project
     context_object_name = "project"
     template_name = "projects/project_detail.html"
     
+
 class ProjectCreate(LoginRequiredMixin,CreateView):
     model = Project
     fields = ["title","description","budget","deadline"]
@@ -25,6 +30,7 @@ class ProjectCreate(LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user # assign current user 
         return super().form_valid(form)
+
     
 class ProjectEdit(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Project
@@ -33,6 +39,7 @@ class ProjectEdit(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     
     def test_func(self):
         return self.request.user.id == self.get_object().created_by.id
+
 
 class ProjectDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Project
