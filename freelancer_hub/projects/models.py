@@ -10,6 +10,8 @@ class Project(models.Model):
     created_by = models.ForeignKey(Profile,related_name="projects", on_delete=models.CASCADE)
     deadline = models.DateField()
     status = models.BooleanField(default=True) # True for open, False for closed
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def get_absolute_url(self):
         return reverse("project_detail", kwargs={"pk": self.pk})
