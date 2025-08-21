@@ -13,7 +13,9 @@ class ProjectsList(ListView):
     
     def get_queryset(self):
         # to apply to other's projects not yours
-        return Project.objects.exclude(created_by = self.request.user)
+        if self.request.user.is_authenticated:
+            return Project.objects.exclude(created_by = self.request.user).order_by("-status")
+        return super().get_queryset()
     
 
 class ProjectDetail(DetailView):
