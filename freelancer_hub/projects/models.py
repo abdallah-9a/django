@@ -13,6 +13,7 @@ class Project(models.Model):
     status = models.BooleanField(default=True) # True for open, False for closed
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    skills = models.ManyToManyField("Skill", related_name="projects")
     
     def get_absolute_url(self):
         return reverse("project_detail", kwargs={"pk": self.pk})
@@ -28,5 +29,12 @@ class Category(models.Model):
     
     class Meta:
         ordering = ["name"]
+    def __str__(self):
+        return self.name
+    
+
+class Skill(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    
     def __str__(self):
         return self.name
