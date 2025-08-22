@@ -1,89 +1,127 @@
 {% extends 'base.html' %} {% block title %}Projects | Home{% endblock %} 
 {%block content %}
-<h1 class="h4 mb-4">Latest Projects</h1>
-
-{% if Projects %}
-<div class="row g-3 mb-3">
-  {% for project in Projects %}
-  <div class="col-md-6 col-lg-4">
-    <div class="border rounded p-3 h-100 d-flex flex-column">
-      <h2 class="h6 mb-1">
-        <a href="{% url 'project_detail' project.pk %}"
-          >{{ project.title|truncatechars:40 }}</a
+<div class="row">
+  <aside class="col-md-3 col-lg-2 mb-4">
+    <h2 class="h6 mb-3">Categories</h2>
+    <ul class="list-unstyled small mb-3">
+      <li>
+        <a
+          href="?"
+          class="d-block {% if not selected_category %}fw-semibold{% endif %}"
+          >All</a
         >
-      </h2>
-      <p class="text-muted small mb-1">
-        Posted {{ project.created_at|timesince }} ago
-      </p>
-      <div class="small text-muted mb-2">
-        by
-        <a href="{% url 'profile_detail' project.created_by.pk %}"
-          >{{ project.created_by.username }}</a
+      </li>
+      {% for cat in categories %}
+      <li>
+        <a
+          href="?category={{ cat.slug }}"
+          class="d-block {% if selected_category == cat.slug %}fw-semibold text-decoration-underline{% endif %}"
+          >{{ cat.name }}</a
         >
-      </div>
-      {% if project.category %}
-      <div class="small mb-2">
-        <span class="badge text-bg-light border"
-          >{{ project.category.name }}</span
-        >
-      </div>
-      {% endif %}
-      <p class="small flex-grow-1 mb-2" style="white-space: pre-line">
-        {{ project.description|truncatechars:140 }}
-      </p>
-      <div
-        class="d-flex justify-content-between align-items-center small mt-auto pt-2 border-top">
-        <span>${{ project.budget }}</span>
-        <span
-          class="badge {% if project.status %}bg-success{% else %}bg-secondary{% endif %}"
-          >{% if project.status %}Open{% else %}Closed{% endif %}</span
-        >
-      </div>
-    </div>
-  </div>
-  {% endfor %}
-</div>
-
-{% if is_paginated %}
-<nav class="mt-2" aria-label="Projects pagination">
-  <ul class="pagination pagination-sm mb-0">
-    {% if page_obj.has_previous %}
-    <li class="page-item">
-      <a
-        class="page-link"
-        href="?page={{ page_obj.previous_page_number }}"
-        aria-label="Previous"
-        >&laquo;</a
-      >
-    </li>
-    {% else %}
-    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
-    {% endif %} {# Use precomputed custom_page_range (window) #} {% for num in custom_page_range %} 
-    {% if num == page_obj.number %}
-    <li class="page-item active" aria-current="page">
-      <span class="page-link">{{ num }}</span>
-    </li>
-    {% else %}
-    <li class="page-item">
-      <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-    </li>
-    {% endif %} {% endfor %} {% if page_obj.has_next %}
-    <li class="page-item">
-      <a
-        class="page-link"
-        href="?page={{ page_obj.next_page_number }}"
-        aria-label="Next"
-        >&raquo;</a
-      >
-    </li>
-    {% else %}
-    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+      </li>
+      {% endfor %}
+    </ul>
+    {% if selected_category %}
+    <a href="?" class="btn btn-sm btn-outline-secondary">Clear filter</a>
     {% endif %}
-  </ul>
-  <div class="small text-muted mt-2">
-    Page {{ page_obj.number }} of {{ paginator.num_pages }}
+  </aside>
+  <div class="col-md-9 col-lg-10">
+    <h1 class="h4 mb-4">Latest Projects</h1>
+
+    {% if Projects %}
+    <div class="row g-3 mb-3">
+      {% for project in Projects %}
+      <div class="col-md-6 col-lg-4">
+        <div class="border rounded p-3 h-100 d-flex flex-column">
+          <h2 class="h6 mb-1">
+            <a href="{% url 'project_detail' project.pk %}"
+              >{{ project.title|truncatechars:40 }}</a
+            >
+          </h2>
+          <p class="text-muted small mb-1">
+            Posted {{ project.created_at|timesince }} ago
+          </p>
+          <div class="small text-muted mb-2">
+            by
+            <a href="{% url 'profile_detail' project.created_by.pk %}"
+              >{{ project.created_by.username }}</a
+            >
+          </div>
+          {% if project.category %}
+          <div class="small mb-2">
+            <a
+              href="?category={{ project.category.slug }}"
+              class="badge text-bg-light border text-decoration-none"
+              >{{ project.category.name }}</a
+            >
+          </div>
+          {% endif %}
+          <p class="small flex-grow-1 mb-2" style="white-space: pre-line">
+            {{ project.description|truncatechars:140 }}
+          </p>
+          <div
+            class="d-flex justify-content-between align-items-center small mt-auto pt-2 border-top">
+            <span>${{ project.budget }}</span>
+            <span
+              class="badge {% if project.status %}bg-success{% else %}bg-secondary{% endif %}"
+              >{% if project.status %}Open{% else %}Closed{% endif %}</span
+            >
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <nav class="mt-2" aria-label="Projects pagination">
+      <ul class="pagination pagination-sm mb-0">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ page_obj.previous_page_number }}"
+            aria-label="Previous"
+            >&laquo;</a
+          >
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">&laquo;</span>
+        </li>
+        {% endif %} {% for num in custom_page_range %} {% if num == page_obj.number %}
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">{{ num }}</span>
+        </li>
+        {% else %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ num }}"
+            >{{ num }}</a
+          >
+        </li>
+        {% endif %} {% endfor %} {% if page_obj.has_next %}
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ page_obj.next_page_number }}"
+            aria-label="Next"
+            >&raquo;</a
+          >
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">&raquo;</span>
+        </li>
+        {% endif %}
+      </ul>
+      <div class="small text-muted mt-2">
+        Page {{ page_obj.number }} of {{ paginator.num_pages }}
+      </div>
+    </nav>
+    {% endif %} {% else %}
+    <p class="text-muted">No projects posted yet.</p>
+    {% endif %}
   </div>
-</nav>
-{% endif %} {% else %}
-<p class="text-muted">No projects posted yet.</p>
-{% endif %} {% endblock %}
+</div>
+{% endblock %}
