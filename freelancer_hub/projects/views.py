@@ -10,7 +10,7 @@ class ProjectsList(ListView):
     context_object_name = "Projects"
     template_name = "projects/home.html"
     ordering = ["-status","-created_at"]
-    paginate_by = 9
+    paginate_by = 21
     
     def get_queryset(self):
         qs = super().get_queryset()
@@ -31,6 +31,14 @@ class ProjectsList(ListView):
         
         context["categories"] = Category.objects.all()
         context["selected_category"] = self.request.GET.get("category")
+        
+        # for pagination 
+        page_obj = context["page_obj"]
+        paginator = context["paginator"]
+        
+        start = max(page_obj.number-2, 1)
+        end = min(page_obj.number+2,paginator.num_pages)+1
+        context["custom_page_range"] = range(start,end)
         
         return context
     
