@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView,CreateView,UpdateView,DeleteView, View
-from .models import Project
+from .models import Project, Category
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 # Create your views here.
@@ -9,14 +9,30 @@ class ProjectsList(ListView):
     model = Project
     context_object_name = "Projects"
     template_name = "projects/home.html"
-    ordering = ["-created_at","-status"]
-    paginate_by = 21
+    ordering = ["-status","-created_at"]
+    paginate_by = 9
     
     def get_queryset(self):
+        qs = super().get_queryset()
+        
         # to apply to other's projects not yours
         if self.request.user.is_authenticated:
-            return Project.objects.exclude(created_by = self.request.user).order_by("-created_at","-status")
-        return super().get_queryset()
+            qs = qs.exclude(created_by = self.request.user).order_by("-status","-created_at")
+        
+        # filter by category
+        category_slug = self.request.GET.get("category")
+        if category_slug:
+            qs = qs.filter(category__slug = category_slug)
+            
+        return qs
+    
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        
+        context["categories"] = Category.objects.all()
+        context["selected_category"] = self.request.GET.get("category")
+        
+        return context
     
 
 class ProjectDetail(DetailView):
