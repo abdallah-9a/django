@@ -51,7 +51,7 @@ class ProjectDetail(DetailView):
 
 class ProjectCreate(LoginRequiredMixin,CreateView):
     model = Project
-    fields = ["title","description","budget","deadline"]
+    fields = ["title","description","category","skills","budget","deadline"]
     template_name = "projects/project_add.html"
     
     def form_valid(self, form):
@@ -61,7 +61,7 @@ class ProjectCreate(LoginRequiredMixin,CreateView):
     
 class ProjectEdit(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Project
-    fields = ["title","description","budget","deadline","status"]
+    fields = ["title","description","budget","category","skills","deadline"]
     template_name = "projects/project_edit.html"
     
     def test_func(self):

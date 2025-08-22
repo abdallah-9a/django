@@ -15,6 +15,18 @@
       </div>
       <div class="row g-3">
         <div class="col-md-4">
+          <label class="form-label" for="id_category">Category</label>
+          {{ form.category }} {{ form.category.errors }}
+        </div>
+        <div class="col-md-8">
+          <label class="form-label" for="id_skills"
+            >Skills (Ctrl/Shift to multi-select)</label
+          >
+          {{ form.skills }} {{ form.skills.errors }}
+        </div>
+      </div>
+      <div class="row g-3 mt-1">
+        <div class="col-md-4">
           <label class="form-label" for="id_budget">Budget</label>
           {{ form.budget }} {{ form.budget.errors }}
         </div>
