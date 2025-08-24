@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView,CreateView,UpdateView,Dele
 from .models import Project, Category
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+from .forms import ProjectForm
 # Create your views here.
 
 class ProjectsList(ListView):
@@ -51,7 +52,8 @@ class ProjectDetail(DetailView):
 
 class ProjectCreate(LoginRequiredMixin,CreateView):
     model = Project
-    fields = ["title","description","category","skills","budget","deadline"]
+    form_class = ProjectForm
+    # fields = ["title","description","category","skills","budget","deadline"]
     template_name = "projects/project_add.html"
     
     def form_valid(self, form):
