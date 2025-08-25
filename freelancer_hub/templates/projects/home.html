@@ -6,7 +6,7 @@
     <ul class="list-unstyled small mb-3">
       <li>
         <a
-          href="?"
+          href="?{% if q %}q={{ q|urlencode }}{% endif %}"
           class="d-block {% if not selected_category %}fw-semibold{% endif %}"
           >All</a
         >
@@ -14,7 +14,7 @@
       {% for cat in categories %}
       <li>
         <a
-          href="?category={{ cat.slug }}"
+          href="?category={{ cat.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}"
           class="d-block {% if selected_category == cat.slug %}fw-semibold text-decoration-underline{% endif %}"
           >{{ cat.name }}</a
         >
@@ -22,11 +22,41 @@
       {% endfor %}
     </ul>
     {% if selected_category %}
-    <a href="?" class="btn btn-sm btn-outline-secondary">Clear filter</a>
+    <a
+      href="?{% if q %}q={{ q|urlencode }}{% endif %}"
+      class="btn btn-sm btn-outline-secondary"
+      >Clear filter</a
+    >
     {% endif %}
   </aside>
   <div class="col-md-9 col-lg-10">
-    <h1 class="h4 mb-4">Latest Projects</h1>
+    <div class="d-flex flex-column align-items-center mb-4">
+      <h1 class="h4 mb-3">Latest Projects</h1>
+      <form method="get" class="w-100" style="max-width: 480px">
+        {% if selected_category %}
+        <input type="hidden" name="category" value="{{ selected_category }}" />
+        {% endif %}
+        <div class="input-group">
+          <input
+            type="text"
+            name="q"
+            value="{{ q }}"
+            class="form-control"
+            placeholder="Search (title, description, category, skill)..." />
+          <button class="btn btn-outline-secondary" type="submit">
+            Search
+          </button>
+          {% if q %}
+          <a
+            class="btn btn-outline-danger"
+            href="?{% if selected_category %}category={{ selected_category }}{% endif %}"
+            title="Clear search"
+            >&times;</a
+          >
+          {% endif %}
+        </div>
+      </form>
+    </div>
 
     {% if Projects %}
     <div class="row g-3 mb-3">
@@ -50,7 +80,7 @@
           {% if project.category %}
           <div class="small mb-2">
             <a
-              href="?category={{ project.category.slug }}"
+              href="?category={{ project.category.slug }}{% if q %}&q={{ q|urlencode }}{% endif %}"
               class="badge text-bg-light border text-decoration-none"
               >{{ project.category.name }}</a
             >
@@ -79,7 +109,7 @@
         <li class="page-item">
           <a
             class="page-link"
-            href="?{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ page_obj.previous_page_number }}"
+            href="?{% if selected_category %}category={{ selected_category }}&{% endif %}{% if q %}q={{ q|urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}"
             aria-label="Previous"
             >&laquo;</a
           >
@@ -88,7 +118,8 @@
         <li class="page-item disabled">
           <span class="page-link">&laquo;</span>
         </li>
-        {% endif %} {% for num in custom_page_range %} {% if num == page_obj.number %}
+        {% endif %} {% for num in custom_page_range %} 
+        {% if num == page_obj.number %}
         <li class="page-item active" aria-current="page">
           <span class="page-link">{{ num }}</span>
         </li>
@@ -96,7 +127,7 @@
         <li class="page-item">
           <a
             class="page-link"
-            href="?{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ num }}"
+            href="?{% if selected_category %}category={{ selected_category }}&{% endif %}{% if q %}q={{ q|urlencode }}&{% endif %}page={{ num }}"
             >{{ num }}</a
           >
         </li>
@@ -104,7 +135,7 @@
         <li class="page-item">
           <a
             class="page-link"
-            href="?{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ page_obj.next_page_number }}"
+            href="?{% if selected_category %}category={{ selected_category }}&{% endif %}{% if q %}q={{ q|urlencode }}&{% endif %}page={{ page_obj.next_page_number }}"
             aria-label="Next"
             >&raquo;</a
           >

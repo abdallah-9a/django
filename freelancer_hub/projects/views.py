@@ -4,6 +4,7 @@ from .models import Project, Category
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .forms import ProjectForm
+from django.db.models import Q
 # Create your views here.
 
 class ProjectsList(ListView):
@@ -24,14 +25,25 @@ class ProjectsList(ListView):
         category_slug = self.request.GET.get("category")
         if category_slug:
             qs = qs.filter(category__slug = category_slug)
+        
+        # Search (title, description, category name, skills)
+        search = self.request.GET.get("q")
+        if search:
+            qs = qs.filter(Q(category__name__icontains=search) |
+                           Q(skills__name__icontains=search) |
+                           Q(category__name__icontains=search))
             
         return qs
     
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         
+        # for Categories
         context["categories"] = Category.objects.all()
         context["selected_category"] = self.request.GET.get("category")
+        
+        # Search
+        context["q"] = self.request.GET.get("q","")
         
         # for pagination 
         page_obj = context["page_obj"]
